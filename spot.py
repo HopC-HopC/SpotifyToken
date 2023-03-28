@@ -60,7 +60,7 @@ class Token:
             # no token file saved
             print('File not found')
             self.get_token()
-        except ValueError:
+        except (ValueError, IndexError):
             # token file corrupted
             print('File corrupt')
             self.get_token()
