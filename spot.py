@@ -14,11 +14,11 @@ class Token:
     # Token class will try to load an existing saved token rather than
     # send unnecessary requests; at scale this would improve performance
     def __init__(self):
-        self._token = None
-        self._time = None
+        self.__token = None
+        self.__time = None
         self.load_token()
         try:
-            if self._time + datetime.timedelta(hours=1) < datetime.datetime.now():
+            if self.__time + datetime.timedelta(hours=1) < datetime.datetime.now():
                 # token out of time; update
                 print('Token out of time')
                 self.get_token()
@@ -40,12 +40,12 @@ class Token:
                 "client_secret": CLIENT_SECRET
             }
         response = requests.post(endpoint, headers=headers, data=body)
-        self._token = response.json()['access_token']
-        self._time = datetime.datetime.now()
+        self.__token = response.json()['access_token']
+        self.__time = datetime.datetime.now()
         self.save_token()
 
     def save_token(self):
-        details = self._token + ',' + self._time.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+        details = self.__token + ',' + self.__time.strftime("%d-%b-%Y (%H:%M:%S.%f)")
         with open('token.txt', 'w') as file:
             file.write(details)
 
@@ -54,8 +54,8 @@ class Token:
             with open('token.txt', 'r') as file:
                 result = file.read()
                 result = result.strip().split(',')
-                self._token = result[0]
-                self._time = datetime.datetime.strptime(result[1], "%d-%b-%Y (%H:%M:%S.%f)")
+                self.__token = result[0]
+                self.__time = datetime.datetime.strptime(result[1], "%d-%b-%Y (%H:%M:%S.%f)")
         except FileNotFoundError:
             # no token file saved
             print('File not found')
@@ -66,10 +66,10 @@ class Token:
             self.get_token()
 
     def token(self):
-        return self._token
+        return self.__token
 
     def time(self):
-        return self._time
+        return self.__time
 
 
 token = Token()
