@@ -1,12 +1,39 @@
+"""
+Implementation of the Token class for managing Spotify developer tokens. 
+Created for education; A Level Computer Science teaching.
+
+This class provides functionality for acquiring, storing, and verifying Spotify
+developer tokens. The token is stored in a text file, and at scale, exploring
+databases for production code is recommended.
+
+Usage:
+1. Enter the Spotify client ID and secret from the developer console. Store
+   sensitive information in a secure environment (e.g., .env) for production.
+2. Create an instance of the Token class to manage the Spotify token.
+3. The class will attempt to load an existing saved token, making a new request
+   only if the token is missing or expired.
+
+Attributes:
+- CLIENT_ID (str): Spotify developer client ID.
+- CLIENT_SECRET (str): Spotify developer client secret.
+
+Methods:
+- __init__(): Initializes the Token class, loading an existing token if available,
+  and updating it if necessary.
+- get_token(): Sends a request to Spotify to obtain a new token.
+- save_token(): Saves the token and its expiration time to a text file.
+- load_token(): Loads the token and its expiration time from the text file.
+- token(): Returns the current Spotify token.
+- time(): Returns the expiration time of the current token.
+
+Example Usage:
+```python
+token = Token()
+print(token.token())  # Access your current Spotify token
+"""
+
 import requests, datetime
 
-'''
-Implementation of Token class for gaining, storing and verifying Spotify developer
-tokens. Using text file to store; explore databases for production code.
-'''
-
-# Enter client ID and secret from developer console; store in .env or similar
-# for production
 CLIENT_ID = '' 
 CLIENT_SECRET = ''
 
